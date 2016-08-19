@@ -37,7 +37,7 @@ impl Shred {
         Ok(())
     }
 
-    fn shred_dir(&mut self, path: &Path) -> Result<(), Error> {
+fn shred_dir(&mut self, path: &Path) -> Result<(), Error> {
         for child in try!(fs::read_dir(path)) {
             let child = try!(child);
             let child_type = try!(child.file_type());
@@ -68,7 +68,10 @@ impl Shred {
             ShredType::Random => unimplemented!(), //buffer = random_buffer(),
         } 
         buffer
+
     }   
+
+
 
     fn shred_write(&self, path: &Path) -> Result<(), Error> {
         let file = try!(OpenOptions::new()
