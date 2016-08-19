@@ -1,0 +1,10 @@
+[package]
+name = "shredder"
+version = "0.1.0"
+authors = ["slakuh <skuhinek@gmail.com>"]
+
+[dependencies]
+rand = "0.3.14"
+
+[profile.release]
+lto = true
