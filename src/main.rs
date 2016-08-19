@@ -38,7 +38,5 @@ fn main() {
     if is_error {
         println!("\n Pritisnite ENTER za izlazak.");
         io::stdin().read_line(&mut input).unwrap();
-    }
-
-    println!("\n\tNapravio Slaven Kuhinek © 2016");
+    }    
 }
