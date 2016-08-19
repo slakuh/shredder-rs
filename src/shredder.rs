@@ -68,10 +68,7 @@ fn shred_dir(&mut self, path: &Path) -> Result<(), Error> {
             ShredType::Random => unimplemented!(), //buffer = random_buffer(),
         } 
         buffer
-
     }   
-
-
 
     fn shred_write(&self, path: &Path) -> Result<(), Error> {
         let file = try!(OpenOptions::new()
