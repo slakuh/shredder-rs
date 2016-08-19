@@ -10,7 +10,7 @@ pub struct Shred {
     buffer: Vec<u8>,
 }
 
-//pub struct ShredOptions
+// pub struct ShredOptions
 
 pub enum ShredType {
     Ones, // 255
@@ -26,10 +26,10 @@ impl Shred {
             buffer: Shred::create_buffer(constants::SHRED_TYPE),
         }
     }
-    
+
     pub fn shred(&mut self, path: &Path) -> Result<(), Error> {
         let metadata = try!(fs::metadata(path));
-        if metadata.is_dir() {        
+        if metadata.is_dir() {
             try!(self.shred_dir(path));
         } else {
             try!(self.shred_file(path));
@@ -43,7 +43,7 @@ impl Shred {
             let child_type = try!(child.file_type());
             if child_type.is_dir() {
                 try!(self.shred_dir(&child.path()));
-           } else if child_type.is_symlink() {
+            } else if child_type.is_symlink() {
                 try!(fs::remove_file(&child.path()));
             } else {
                 try!(self.shred_file(&child.path()));
@@ -53,8 +53,8 @@ impl Shred {
         Ok(())
     }
 
-    fn shred_file(&mut self, path: &Path) -> Result<(), Error> {  
-        try!(self.shred_write(&path));        
+    fn shred_file(&mut self, path: &Path) -> Result<(), Error> {
+        try!(self.shred_write(&path));
         let file: PathBuf = try!(self.rename(&path));
         try!(fs::remove_file(file));
         Ok(())
@@ -66,19 +66,19 @@ impl Shred {
             ShredType::Ones => buffer = vec![255; constants::BUFFER_SIZE],
             ShredType::Zeroes => buffer = vec![0; constants::BUFFER_SIZE],
             ShredType::Random => unimplemented!(), //buffer = random_buffer(),
-        } 
+        }
         buffer
-    }   
+    }
 
     fn shred_write(&self, path: &Path) -> Result<(), Error> {
         let file = try!(OpenOptions::new()
-            .read(false)
-            .write(true)
-            .create(false)
-            .open(path));       
+                            .read(false)
+                            .write(true)
+                            .create(false)
+                            .open(path));
         let file_size = try!(file.metadata()).len();
-        let mut buf_write = BufWriter::new(file); 
-        let buffer_slice = &self.buffer[..];  
+        let mut buf_write = BufWriter::new(file);
+        let buffer_slice = &self.buffer[..];
         let buffer_slice_len = self.buffer.len() as u64;
 
         for _ in 0..self.num_pass {
@@ -86,7 +86,7 @@ impl Shred {
             while file_size > seek {
                 try!(buf_write.seek(SeekFrom::Start(seek)));
                 try!(buf_write.write(buffer_slice));
-                seek += buffer_slice_len;                
+                seek += buffer_slice_len;
             }
         }
         Ok(())
