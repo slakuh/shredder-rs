@@ -16,7 +16,7 @@ fn main() {
     let mut input = String::new();
     io::stdin().read_line(&mut input).unwrap();
 
-    println!("\n Briše...\n");
+    println!("\n Pričekajte da završi brisanje...\n");
 
     let mut shred = Shred::new();//
     let mut is_error = false;
